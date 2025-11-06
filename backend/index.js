@@ -42,13 +42,13 @@ async function createTestUser()
 }
 
 ConnectDb();
-createTestUser();
+//createTestUser();
 
 //define routes
 app.get('/', (req, res) => {
   res
   .status(200)
-  .send('Hello World from Express!');
+  .send('Hello World from Backend!');
 });
 
 app.get('/getusers', async (req, res) => {  
