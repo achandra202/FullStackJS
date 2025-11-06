@@ -15,7 +15,8 @@ const app = express();
 app.use(express.json());//middleware to parse JSON request bodies
 app.use(express.urlencoded({ extended: true }));
 
-
+console.log('DB_NAME:', DB_NAME);
+console.log('MOGO_URI:', process.env.MOGO_URI);
 async function ConnectDb() {
   try {
     await mongoose.connect(process.env.MOGO_URI + '/' + DB_NAME); 
@@ -29,9 +30,9 @@ async function createTestUser()
 {
   try {
       const testUser = new User({
-        username: 'testuser1a',
+        username: 'testuser4',
         password: 'testpassword',
-        email: 'abc1@vcas.com'
+        email: 'abc1@4caas.com'
       });
       await testUser.save();
       console.log(`Test user ${testUser.username} created.`);
@@ -42,7 +43,7 @@ async function createTestUser()
 }
 
 ConnectDb();
-//createTestUser();
+createTestUser();
 
 //define routes
 app.get('/', (req, res) => {
@@ -51,7 +52,7 @@ app.get('/', (req, res) => {
   .send('Hello World from Backend!');
 });
 
-app.get('/getusers', async (req, res) => {  
+app.get('/api/v1/getusers', async (req, res) => {  
 try { 
     const users = await User.find({});  
     return res
