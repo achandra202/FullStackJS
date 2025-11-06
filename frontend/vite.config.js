@@ -8,19 +8,8 @@ export default defineConfig({
     // Proxy API requests to backend dev server.
     // Backend runs on PORT from backend (default 3000). Adjust target if your backend uses a different port or hostname.
     proxy: {
-      // direct backend route used in this project
-      '/getusers': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-        secure: false,
-      },
-      // general-purpose API proxy: frontend can call /api/xyz and it'll be forwarded to /xyz on backend
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-      },
+      // proxy all /api requests to the backend server
+      '/api': 'http://localhost:3000',
     },
   },
 })

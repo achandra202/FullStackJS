@@ -1,37 +1,42 @@
-import { useState,useEffect } from 'react'
-
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 function App() {
-    const [data, setData] = useState([]); // Initialize state to an empty array or null
+  const [users, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch data inside useEffect to run once after initial render
-    fetch('/getusers')
-      .then(response => response.json())
-      .then(fetchedData => {
-        setData(fetchedData); // Update state with the fetched data
-      }     
-    )
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, []); // Empty dependency array ensures this runs only once
-  console.log(data)
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("/api/getusers");
+        setData(response.data); // Axios automatically parses JSON
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
   return (
     <div>
-      <h1>Fetched Data:</h1>
-      {data.length > 0 ? (
-        <ul>
-          {data.map(item => (
-            <li >{item}</li> // Assuming 'id' and 'name' properties
-          ))}
-        </ul>
-      ) : (
-        <p>Loading data...</p>
-      )}
+      
+        {users.data.map((user, index) => {
+          return (
+            <div key={user._id}>
+              <p>{user.username}: {user.email}</p>
+            </div>
+          );
+        })}
+      
     </div>
   );
 }
 
-
-export default App
+export default App;

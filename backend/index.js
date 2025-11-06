@@ -43,7 +43,7 @@ async function createTestUser()
 }
 
 ConnectDb();
-createTestUser();
+//createTestUser();
 
 //define routes
 app.get('/', (req, res) => {
@@ -52,7 +52,7 @@ app.get('/', (req, res) => {
   .send('Hello World from Backend!');
 });
 
-app.get('/api/v1/getusers', async (req, res) => {  
+app.get('/api/getusers', async (req, res) => {  
 try { 
     const users = await User.find({});  
     return res
