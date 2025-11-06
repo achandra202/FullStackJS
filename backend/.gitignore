@@ -2,7 +2,7 @@ create a gitignore file for a backend project
 # Node.js dependencies  
 node_modules/
 # Environment variables
-.env
+#.env
 # Logs  
 logs/
 *.log
